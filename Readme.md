@@ -1,3 +1,7 @@
+## Current Status
+
+Nothing is getting rendered on screen and program self quits after a few thousand cycles
+
 # Chip-8 Emulator
 
 Welcome to my Chip-8 Emulator project! This is my first major self project, and I'm excited to share it with you.
