@@ -21,7 +21,6 @@ int main(int argc, char* argv[]) {
     bool quit = false;
 
     auto last_cycle_time = std::chrono::high_resolution_clock::now();
-    long long tmpd = 1;
     while (!quit) {
         quit = sdlx.keyboard_input(chip8.ret_keypad());
         if (quit) {
@@ -32,15 +31,15 @@ int main(int argc, char* argv[]) {
         float dt = std::chrono::duration<float, std::chrono::milliseconds::period>(current_time - last_cycle_time).count();
         
         if (dt > cycle_delay) {
-            cout << "cycle " << tmpd << "\n";
-            tmpd++;
+            dcycles++;
+            // cout << "cycle " << dcycles << "---";
+            // cout << ddraw << "\n";
             last_cycle_time = current_time;
             // cout << "c1\n";
             chip8.chip8_cycle();
             // cout << "c2\n";
             sdlx.cycle_end_update(chip8.ret_video(), video_pitch);
             // cout << "c3\n";
-            uint32_t* tmpd2 = chip8.ret_video();
         }
     }
 
@@ -299,14 +298,20 @@ void Chip8::loadROM(char* filename) {
 }
 
 void Chip8::chip8_cycle() {
+
+    // cout << "pc: " << pc << "----mem[pc]: " << ((int) memory[pc]) << " " << ((int) memory[pc + 1]) << "\n"; 
+
     // Fetching next opcode to be executed from memory
     uint16_t instruction;
+
     instruction = memory[pc];
     instruction <<= 8u;
-    instruction &= memory[pc + 1];
-
+    instruction |= memory[pc + 1];
+    // cout << "opcode: " << ((int) instruction) << "\n";
     // Incrementing program counter
     pc += 2;
+
+    opcode = instruction;
 
     // Executing opcode
     ((*this).*(ftable[(instruction & 0xF000u) >> 12u]))();
@@ -550,6 +555,7 @@ void Chip8::OP_Cxkk() {
 }
 
 void Chip8::OP_Dxyn() {
+    ddraw++;
     // Draw sprite of height n starting at location (Vx, Vy) consisting of n bytes. If collision set VF = 1, else 0. Sprite can be copied starting at location VI
     uint8_t x, y, n;
     x = (opcode & 0x0F00u) >> 8u;
@@ -567,17 +573,18 @@ void Chip8::OP_Dxyn() {
         {
             uint8_t xxx = (xx + j) % VIDEO_WIDTH; // current location of drawing in coordinates
             uint8_t yyy = (yy + i) % VIDEO_HEIGHT; 
-            uint8_t sprite_bit = (sprite_byte & (1u << (7 - j))) >> (7 - j);
+            uint8_t sprite_bit = ((sprite_byte & (1u << (7 - j))) >> (7 - j));
             if (sprite_bit == 1u) {
                 if (video[yyy * VIDEO_WIDTH + xxx] != 0u) {
                     // collision
                     registers[0xFu] = 1u; 
                 }       
-                video[xxx * VIDEO_WIDTH + yyy] ^= 0xFFFFFFFFu;
+                video[yyy * VIDEO_WIDTH + xxx] ^= 0xFFFFFFFFu;
             }
         }
     }
 }
+
 void Chip8::OP_Ex9E() {
     // skip next if key on keypad with value of Vx is pressed
     uint8_t x = (opcode & 0x0F00u) >> 8u;

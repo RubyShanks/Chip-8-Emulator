@@ -10,9 +10,9 @@
 
 using std::cout;
 
-const int MEMORY_SIZE = 4096;
-const int VIDEO_WIDTH = 64;
-const int VIDEO_HEIGHT = 32;
+const unsigned int MEMORY_SIZE = 4096;
+const unsigned int VIDEO_WIDTH = 64;
+const unsigned int VIDEO_HEIGHT = 32;
 const uint16_t ROM_START_ADDRESS = 0x200;
 const uint16_t FONT_START_ADDRESS = 0x050; // 0x050-0x0A0
 const uint8_t fontset[16][5] = {{ // built-in character fonts 
@@ -129,6 +129,10 @@ const uint8_t fontset[16][5] = {{ // built-in character fonts
             0b10000000,
         }
     };
+
+// debugging variables
+int ddraw = 0;
+int dcycles = 0;
 
 // RNG
 std::random_device rand_device; // to obtain seed for non-deterministic RNG (as opposed to pseudo RNG)
