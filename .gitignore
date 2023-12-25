@@ -3,6 +3,7 @@ octoachip8story.ch8
 RPS.ch8
 SDL2.dll
 ultimatetictactoe.ch8
+test_opcode.ch8
 
 # Exclude directories
 src/

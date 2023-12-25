@@ -11,6 +11,7 @@ int main(int argc, char* argv[]) {
     int cycle_delay = 1;
 
     SDLx sdlx("Chip-8 Emulator", VIDEO_WIDTH * scale_factor, VIDEO_HEIGHT * scale_factor);
+
     Chip8 chip8;
     chip8.loadROM(argv[1]);
     // chip8.printMemory();
@@ -20,7 +21,7 @@ int main(int argc, char* argv[]) {
     bool quit = false;
 
     auto last_cycle_time = std::chrono::high_resolution_clock::now();
-    long long tmp = 1;
+    long long tmpd = 1;
     while (!quit) {
         quit = sdlx.keyboard_input(chip8.ret_keypad());
         if (quit) {
@@ -31,11 +32,15 @@ int main(int argc, char* argv[]) {
         float dt = std::chrono::duration<float, std::chrono::milliseconds::period>(current_time - last_cycle_time).count();
         
         if (dt > cycle_delay) {
-            // cout << "cycle " << tmp << "\n";
-            tmp++;
+            cout << "cycle " << tmpd << "\n";
+            tmpd++;
             last_cycle_time = current_time;
+            // cout << "c1\n";
             chip8.chip8_cycle();
+            // cout << "c2\n";
             sdlx.cycle_end_update(chip8.ret_video(), video_pitch);
+            // cout << "c3\n";
+            uint32_t* tmpd2 = chip8.ret_video();
         }
     }
 

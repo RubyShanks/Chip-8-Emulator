@@ -1,6 +1,10 @@
 ## Current Status
 
 Nothing is getting rendered on screen and program self quits after a few thousand cycles
+Update: video object of Chip8 class is still filled with 0s at 8000+ cycles at which point program abruptly stops
+No. of cycles before stop seems to vary.
+Program quits before exiting out of the chip8 cycle function.
+Draw command may be is not working
 
 # Chip-8 Emulator
 
