@@ -1,6 +1,6 @@
 ## Current Status
 
-Update: Trivial mistake in the draw function found and corrected. Unresponsive to keyboard input except escape
+Update: Currently in debugging phase. Seems to work fine but needs more careful testing. If possible would like to add sound. 
 
 # Chip-8 Emulator
 

@@ -7,6 +7,7 @@
 #include <random> // rng
 #include <chrono>   
 #include <SDL2/SDL.h>
+#include <iomanip>
 
 using std::cout;
 
@@ -133,6 +134,7 @@ const uint8_t fontset[16][5] = {{ // built-in character fonts
 // debugging variables
 int ddraw = 0;
 int dcycles = 0;
+int tmpd = 0;
 
 // RNG
 std::random_device rand_device; // to obtain seed for non-deterministic RNG (as opposed to pseudo RNG)
@@ -150,7 +152,9 @@ class Chip8 {
     uint32_t* ret_video();
     // returns keypad
     uint8_t* ret_keypad();
-
+    // prints all registers for debugging 
+    void print_registers();
+    
     // Opcodes
     void OP_00E0();
     void OP_00EE();

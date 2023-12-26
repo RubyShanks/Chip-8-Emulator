@@ -8,6 +8,7 @@ test_opcode.ch8
 # Exclude directories
 src/
 .vscode/
+roms/
 
 # Exclude all .exe files
 *.exe
